@@ -1,7 +1,28 @@
-/*globals $*/
+/*globals $, alert*/
 $(function() {
     'use strict';
 
+    var BASE_URL = 'http://localhost:3000/todos/';
+    var deleteTodo = function(id) {
+        // remove from model
+        todoItems = $.grep(todoItems,
+            function(o) {
+                return o.id === id;
+            },
+            true);
+
+
+        $.ajax({
+            url: BASE_URL + id,
+            type: 'DELETE',
+            success: function() {
+                //... // remove from ui
+                $('li#' + id).remove();
+            }
+        });
+
+
+    };
 
     var addToModel = function(todoName) {
 
@@ -11,21 +32,32 @@ $(function() {
 
         var newTodo = {
             id: id,
-            name: todoName
+            title: todoName
         };
         // add to model
         todoItems.push(newTodo);
 
-        return newTodo;
+
+        return $.ajax({
+            type: 'POST',
+            url: BASE_URL,
+            data: newTodo
+        });
     };
 
     var addToView = function(newTodo) {
 
 
         // new todo ui
-        var span = $('<span>').text(newTodo.name);
+
+        var strike = newTodo.completed ? 'strike' : '';
+        var span = $('<span>')
+            .text(newTodo.title)
+            .attr('class', strike);
+
         var checkbox = $('<input type="checkbox">')
-            .attr('value', newTodo.id);
+            .attr('value', newTodo.id)
+            .attr('checked', newTodo.completed);
 
         var button = $('<button>').text('x')
             .addClass('remove')
@@ -46,10 +78,10 @@ $(function() {
     // model
     var todoItems = [{
             id: 1,
-            name: 'first job'
+            title: 'first job'
         }, {
             id: 2,
-            name: 'second job'
+            title: 'second job'
         }
 
     ];
@@ -60,20 +92,38 @@ $(function() {
             var id = parseInt(event.currentTarget.value);
 
 
-            // remove from model
-            todoItems = $.grep(todoItems,
-                function(o) {
-                    return o.id === id;
-                },
-                true);
-
-            // remove from ui
-            $('li#' + id).remove();
+            deleteTodo(id);
         });
+
+
         var checkbox = $('#' + id + ' input[type="checkbox"]');
 
         checkbox.click(function() {
-           $(this).parent().find('span').toggleClass('strike');
+
+
+            var completed = checkbox.is(':checked');
+            $.ajax({
+                url: BASE_URL + id,
+                type: 'PUT',
+                data: {
+                    completed: completed
+                },
+                success: function() {
+
+                    var span = checkbox.parent().find('span');
+                    if (completed) {
+                        span.addClass('strike');
+                    } else {
+                        span.removeClass('strike');
+
+                    }
+
+
+                }
+            });
+
+
+
         });
 
 
@@ -86,7 +136,11 @@ $(function() {
 
                 var newTodo = addToModel(todoName);
 
-                addToView(newTodo);
+                newTodo.done(function(res) {
+
+
+                    addToView(res);
+                });
 
 
                 event.currentTarget.value = '';
@@ -96,10 +150,18 @@ $(function() {
 
 
     var init = function() {
-        $.each(todoItems, function(index, elem) {
 
-            addToView(elem);
+        $.getJSON(BASE_URL).done(function(data) {
+            todoItems = data;
+            $.each(todoItems, function(index, elem) {
+
+                addToView(elem);
+            });
+        }).fail(function() {
+            alert('Failed to connect to server');
         });
+
+
     };
 
 

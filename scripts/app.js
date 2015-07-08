@@ -4,12 +4,6 @@ $(function() {
 
     var BASE_URL = 'http://localhost:3000/todos/';
     var deleteTodo = function(id) {
-        // remove from model
-        todoItems = $.grep(todoItems,
-            function(o) {
-                return o.id === id;
-            },
-            true);
 
 
         $.ajax({
@@ -20,22 +14,16 @@ $(function() {
                 $('li#' + id).remove();
             }
         });
-
-
     };
 
     var addToModel = function(todoName) {
 
-        // generate id
-        var id = todoItems.length + 1;
 
 
         var newTodo = {
-            id: id,
+
             title: todoName
         };
-        // add to model
-        todoItems.push(newTodo);
 
 
         return $.ajax({
@@ -45,9 +33,12 @@ $(function() {
         });
     };
 
+    var displayCount = function(count) {
+        var itemsLeft = $('<p>').text('Count: ' + count);
+        $('div #count').append(itemsLeft);
+    };
+
     var addToView = function(newTodo) {
-
-
         // new todo ui
 
         var strike = newTodo.completed ? 'strike' : '';
@@ -75,23 +66,10 @@ $(function() {
         addEventHandler(newTodo.id);
     };
 
-    // model
-    var todoItems = [{
-            id: 1,
-            title: 'first job'
-        }, {
-            id: 2,
-            title: 'second job'
-        }
-
-    ];
-
     var addEventHandler = function(id) {
 
         $('#' + id + ' button').click(function(event) {
             var id = parseInt(event.currentTarget.value);
-
-
             deleteTodo(id);
         });
 
@@ -115,18 +93,11 @@ $(function() {
                         span.addClass('strike');
                     } else {
                         span.removeClass('strike');
-
                     }
-
-
                 }
             });
 
-
-
         });
-
-
     };
     //Event handlers
     $('#new-todo').keypress(function(event) {
@@ -137,11 +108,8 @@ $(function() {
                 var newTodo = addToModel(todoName);
 
                 newTodo.done(function(res) {
-
-
                     addToView(res);
                 });
-
 
                 event.currentTarget.value = '';
             }
@@ -150,21 +118,18 @@ $(function() {
 
 
     var init = function() {
-
         $.getJSON(BASE_URL).done(function(data) {
-            todoItems = data;
-            $.each(todoItems, function(index, elem) {
-
+            var count = data.length;
+            $.each(data, function(index, elem) {
                 addToView(elem);
+                displayCount(count);
+
             });
+
         }).fail(function() {
             alert('Failed to connect to server');
         });
 
-
     };
-
-
-
     init();
 });

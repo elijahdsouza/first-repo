@@ -1,8 +1,9 @@
-ul {
+ #todo-list  {
 	padding-left: 0;
+
 }
 
-li {
+#todo-list li {
 	 border-bottom: 1px solid #E8E8E8; 
 	 padding: 7px 8px 18px 17px;
 	list-style: none;
@@ -32,10 +33,11 @@ input[type="text"] {
 
 body {
 	background-color: #F5F5F5;
+	  line-height: 1.4em;
 }
 
 
-li button {
+#todo-list li button {
 	float: right;
 }
 
@@ -48,23 +50,40 @@ footer {
 .strike {
 	text-decoration: line-through;
 }
+div #count{
+	float: left;
+	display: inline-block;
+	padding-right: 10px;
+	margin-right: 10px;
+}
+
+
+
+div #itemsleft,  div #completedTasks{
+	float: right;
+	display: inline-block;
+	padding-right: 10px;
+
+}
 
 .btn {
   border-radius: 16px;
-  text-shadow: 2px 1px 6px #c9c9c9;
+ 
   font-family: Arial;
-  color: #cc0085;
+ color: #cc0085;
       font-weight: bold;
   font-size: 13px;
-  background: #f5f5f5;
+  background: #FFF;
   padding: 8px 15px 8px 15px;
   text-decoration: none;
   display: inline-block;
 }
 
 .btn:hover {
-  background: #e3e5e6;
+  border-radius: 16px;
+  background: #ECEDED;
   text-shadow: 2px 1px 6px #c9c9c9;
+
   font-family: Arial;
   color: #cc0085;
   text-decoration: none;
@@ -87,3 +106,62 @@ footer {
   box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
   color: #99A1A7;
 }
+
+/*ul.filters  li a {
+  list-style-type: none;
+  display: inline ;
+  margin: 0;
+  /* padding: 3px 7px; 
+  text-decoration: none;	
+  -----display: block;
+    width: 89px;
+    background-color: #dddddd;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin:  0 2px
+} */
+
+ul.fliters li  {
+	list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #dddddd;
+	/* overflow: hidden; */
+    
+	text-decoration: none;
+      
+	display: inline-block; ;
+      /*float: left;*/
+}
+
+ul.fliters li a  {
+ list-style: none;
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid rgba(195, 16, 16, 0);
+  border-radius: 3px;
+  display: inline-block;
+}
+.filters  ul li {
+ 	 float: left;
+ }
+/*
+
+#filters  ul li a {
+  list-style: none;
+  color: inherit;
+  margin: 3px;
+  padding: 3px 7px;
+  text-decoration: none;
+  border: 1px solid rgba(195, 16, 16, 0);
+  border-radius: 3px;
+  display: inline-block;
+}
+
+
+#filters li a.selected {
+  border-color: rgba(175, 47, 47, 0.2);
+}*/
+

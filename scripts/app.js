@@ -6,7 +6,7 @@ $(function() {
     var todoItems = [];
     var count;
     var taskDone;
-  // var prevCeckboxId;
+    // var prevCeckboxId;
 
     var deleteTodo = function(id) {
         $.ajax({
@@ -14,16 +14,15 @@ $(function() {
             type: 'DELETE',
             success: function() {
                 //... // remove from ui
-
                 count = count - 1;
                 updateCount(count);
-                updateItemsleft(count,taskDone );
+                updateItemsleft(count, taskDone);
                 var isCheckboxTicked = $('#' + id + ' input[type="checkbox"]').is(':checked');
                 if (isCheckboxTicked) {
                     taskDone = taskDone - 1;
                     updateCompletedTasks(taskDone);
                 }
-                                $('li#' + id).remove();
+                $('li#' + id).remove();
             }
         });
     };
@@ -41,33 +40,63 @@ $(function() {
 
     var updateCount = function(c2) {
         count = c2;
-        $('div #count').html('Total Items: ' + count);
-         updateItemsleft(count, taskDone);
+        $('div #count').html(' Total Items: ' + count);
+        updateItemsleft(count, taskDone);
     };
     var displayCount = function(c) {
         count = c;
-        var itemsLeft = $('<p>').text('Total Items:' + count);
+        var itemsLeft = $('<p>').text(' Total Items: ' + count);
         $('div #count').append(itemsLeft);
     };
     var displayItemsleft = function() {
-        var itemsLeft = $('<p>').text('Total Left todo:' + (count - taskDone));
-        $('div #Itemsleft').append(itemsLeft);
+        var itemsLeft = $('<p>').text(' Total Left todo: ' + (count - taskDone) + '&nbsp; &nbsp;' + '|');
+        $('div #itemsleft').append(itemsLeft);
     };
     var updateItemsleft = function(c, t) {
-        $('div #Itemsleft').html('Total Left todo:' + (c - t));
+        $('div #itemsleft').html(' Total Left todo: ' + (c - t) + '&nbsp; &nbsp;' + '|');
     };
 
     var displayCompletedTasks = function(t) {
         taskDone = t;
-        var competed = $('<p>').text('Completed:' + taskDone);
+        var competed = $('<p>').text(' Completed: ' + taskDone);
         $('div #completedTasks').append(competed);
     };
     var updateCompletedTasks = function(t) {
         taskDone = t;
-        $('div #completedTasks').html('Completed: ' + taskDone);
-        updateItemsleft(count,taskDone);
-        
+        $('div #completedTasks').html(' Completed: ' + taskDone);
+        updateItemsleft(count, taskDone);
+
     };
+
+
+
+    $('#active').on('click', function() {
+        var elements = document.getElementsByClassName('strike');
+        for (var i = 0; i < elements.length; i++) {
+            $(elements[i]).parent().hide(500);
+        }
+
+        // for (index = elements.length - 1; index >= 0; --index) {
+        //     $(elements[index]).parent().parent().hide(500);
+        // }
+    });
+    $('#all').on('click', function() {
+        var elements = document.getElementsByClassName('strike');
+        for (var i = 0; i < elements.length; i++) {
+             $(elements[i]).parent().show(500);
+        }
+        // if (elements.style.display === 'block')
+        //     elements.style.display = 'none';
+        // else
+        //     elements.style.display = 'block';
+
+        // for (index = elements.length - 1; index >= 0; --index) {
+        //     $(elements[index]).parent().slideToggle(500);
+        // }
+
+     
+    });
+
     var addToView = function(newTodo) {
         // new todo ui
         var strike = newTodo.completed ? 'strike' : '';
@@ -96,23 +125,22 @@ $(function() {
             taskDone = taskDone + 1;
             updateCompletedTasks(taskDone);
         }
-
-
-        $('ul').append(li);
+        $('#todo-list ').append(li);
         addEventHandler(newTodo.id);
-
     };
+
+
+
 
     var addEventHandler = function(id) {
         //button clicked
+
         $('#' + id + ' button').click(function(event) {
             var id = parseInt(event.currentTarget.value);
             deleteTodo(id);
         });
         var checkbox = $('#' + id + ' input[type="checkbox"]');
-
         checkbox.click(function() {
-
             var completed = checkbox.is(':checked');
 
             $.ajax({
@@ -128,14 +156,11 @@ $(function() {
                         //
                         taskDone = taskDone + 1;
                         updateCompletedTasks(taskDone);
-                      //  prevCeckboxId = id;
+                        //  prevCeckboxId = id;
                     } else {
                         span.removeClass('strike');
-                        // if (prevCeckboxId === id) {
                         taskDone = taskDone - 1;
                         updateCompletedTasks(taskDone);
-
-                        // }
                     }
                 }
             });
@@ -150,7 +175,7 @@ $(function() {
                 var newTodo = addToModel(todoName);
                 count = count + 1;
                 updateCount(count);
-                
+
                 newTodo.done(function(res) {
                     addToView(res);
                 });

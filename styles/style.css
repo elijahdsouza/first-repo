@@ -23,19 +23,36 @@
 	padding: 20px;
 }
 input[type="text"] {
-	width: 100%;
-	padding: 10px;
+	width: 94%;
+	padding: 10px ;
+	padding-left: 10px;
+	margin-left: 8px;
 	font-size: 16px;
 	margin-bottom: 20px;
 	font-style: italic;
 	border: none;
+	display: inline-block;
+}
+input[type=checkbox], input[type=radio] {
+	  margin: 2px 6px 0 0;
+ 	 margin-top: 1px\9;
+  	line-height: inherit;
+}
+input#toggle-all {
+	  margin-left: 8px;
+	  clear: both;
+}
+button#clear-completed {
+  float: right;
+  display: inline-block;
+
+    clear: both;
 }
 
 body {
 	background-color: #F5F5F5;
 	  line-height: 1.4em;
 }
-
 
 #todo-list li button {
 	float: right;
@@ -57,20 +74,17 @@ div #count{
 	margin-right: 10px;
 }
 
-
-
 div #itemsleft,  div #completedTasks{
 	float: right;
 	display: inline-block;
 	padding-right: 10px;
-
 }
 
 .btn {
   border-radius: 16px;
  
   font-family: Arial;
- color: #cc0085;
+ color: rgba(204, 0, 133, 0.4);
       font-weight: bold;
   font-size: 13px;
   background: #FFF;
@@ -87,7 +101,7 @@ div #itemsleft,  div #completedTasks{
   font-family: Arial;
   color: #cc0085;
   text-decoration: none;
- transition:color  .5s ease-out, background .5s ease-in;
+  transition : color .5s ease-out, background .5s ease-in;
 
 }
 .regular-checkbox:checked + label:after {
@@ -142,11 +156,30 @@ ul.fliters li a  {
   text-decoration: none;
   border: 1px solid rgba(195, 16, 16, 0);
   border-radius: 3px;
-  display: inline-block;
+  display: block;
 }
 .filters  ul li {
  	 float: left;
  }
+
+
+a:hover, a.active  {
+	background-color: #999;
+}
+div.divfilters ul {
+	margin: 0;
+	padding: 0;
+	clear: both;
+}
+
+div.divfilters {
+  text-align: center;
+  width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*
 
 #filters  ul li a {
